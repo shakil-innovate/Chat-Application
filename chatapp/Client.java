@@ -1,43 +1,41 @@
 package chatapp;
 
-import java.io.*;
+import java.awt.desktop.SystemEventListener;
 import java.net.*;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
-public class Client {
-    public static void main(String[] args) {
-        try {
-            Scanner scanner = new Scanner(System.in);
+public class Client{
+    public static void main(String[] args){
+        try{
+            Scanner sc=new Scanner(System.in);
 
-            System.out.print("Enter server IP: ");
-            String serverIP = scanner.nextLine();
+            System.out.println("Enter Server IP: ");
+            String serverIP=sc.nextLine();
 
-            Socket socket = new Socket(serverIP, 5000);
-            System.out.println("Connected to server!");
+            Socket socket=new Socket(serverIP,5000);
+            System.out.println("connceted to server!");
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+            BufferedReader br=new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter pw=new PrintWriter(socket.getOutputStream(),true);
 
-            // Thread to read messages from server
-            Thread readThread = new Thread(() -> {
-                try {
+            Thread readThread=new Thread(()->{
+                try{
                     String msg;
-                    while ((msg = br.readLine()) != null) {
+                    while((msg=br.readLine())!= null){
                         System.out.println(msg);
                     }
-                } catch (IOException e) {
+                }catch(IOException e){
                     e.printStackTrace();
                 }
             });
-            readThread.start();
+           readThread.start();
 
-            // Main thread to send messages
-            while (true) {
-                String msg = scanner.nextLine();
-                pw.println(msg);
-            }
-
-        } catch (IOException e) {
+        while(true){
+            String msg=sc.nextLine();
+            pw.println(msg);
+        }
+  }catch (IOException e){
             e.printStackTrace();
         }
     }
